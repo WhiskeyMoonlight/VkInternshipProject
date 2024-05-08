@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.dimas.vkinternshipproject.databinding.ActivitySingleProductBinding
 import com.dimas.vkinternshipproject.presentationLayer.viewmodels.SingleProductViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -33,6 +34,7 @@ class SingleProductActivity : AppCompatActivity() {
             is SingleProductViewModel.SingleState.Idle -> Unit
             is SingleProductViewModel.SingleState.Loading -> {
                 showLoader(true)
+                showRetry(false)
             }
 
             is SingleProductViewModel.SingleState.Success -> {
@@ -45,26 +47,44 @@ class SingleProductActivity : AppCompatActivity() {
                 }
                 binding.itemTitle.text = item.title
                 binding.itemDescription.text = item.description
-                binding.itemBrand.text = item.brand
-                binding.itemPrice.text = item.price.toString()
-                binding.itemDiscount.text = item.discount.toString()
-                binding.itemRating.text = item.rating.toString()
-                binding.itemStock.text = item.stock.toString()
+
+                "Brand: ${item.brand}".apply { binding.itemBrand.text = this }
+                "${item.price} USD".apply { binding.itemPrice.text = this }
+                "(${item.discount}% off!)".apply { binding.itemDiscount.text = this }
+                "${item.rating}/5.00".apply { binding.itemRating.text = this }
+                "In stock: ${item.stock}".apply { binding.itemStock.text = this }
+
+                binding.backButton.setOnClickListener { this.finish() }
+
+                binding.orderButton.setOnClickListener {
+                    Snackbar.make(
+                        binding.root,
+                        "You have just ordered  ${item.title}!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
             is SingleProductViewModel.SingleState.Error -> {
                 showLoader(false)
+                showRetry(true)
                 Toast.makeText(
                     this,
                     "Runtime error: ${state.error}. Please, retry.",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                binding.errorGoBack.setOnClickListener { this.finish() }
             }
         }
     }
 
     private fun showLoader(status: Boolean) {
         binding.singleProgressBar.isVisible = status
+    }
+
+    private fun showRetry(status: Boolean) {
+        binding.errorButtons.isVisible = status
     }
 
 

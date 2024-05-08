@@ -17,6 +17,9 @@ interface IApi {
     @GET("/products/categories")
     suspend fun getCategoriesList(): Response<List<String>>
 
+    @GET("/products/search")
+    suspend fun search(@Query("q") query: String): Response<ProductsResponse>
+
     @GET("/products")
     suspend fun getProductsParametrized(
         @Query("skip")

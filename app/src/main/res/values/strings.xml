@@ -47,4 +47,10 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="load_more">Load More</string>
+    <string name="item_image">Item Image</string>
+    <string name="go_back_button">Go-back Button</string>
+    <string name="text">text</string>
+    <string name="order">Order</string>
+    <string name="go_back">Go Back</string>
+    <string name="network_error">Network Error</string>
 </resources>

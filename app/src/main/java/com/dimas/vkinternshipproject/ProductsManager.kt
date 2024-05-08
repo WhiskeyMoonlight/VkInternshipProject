@@ -12,4 +12,6 @@ object ProductsManager {
 
     suspend fun getProductsParametrized(skip: Int, limit: Int) =
         ProductsProvider.getProductsParametrized(skip, limit)
+
+    suspend fun search(query: String) = ProductsProvider.search(query)
 }
