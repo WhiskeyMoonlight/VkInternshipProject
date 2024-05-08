@@ -1,8 +1,7 @@
-package com.dimas.vkinternshipproject
+package com.dimas.vkinternshipproject.utilities
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,7 +30,7 @@ class ProductsAdapter(
         fun bind(item: Product) {
             itemBinding.productTitle.text = item.title
             itemBinding.productDescription.text = item.description
-            itemBinding.productPrice.text = item.price.toString()
+            "${item.price} USD".apply { itemBinding.productPrice.text = this }
             itemBinding.imageView.apply {
                 Glide.with(this)
                     .load(item.imageUrl)

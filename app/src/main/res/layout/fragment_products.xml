@@ -14,20 +14,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginHorizontal="10dp"
+                android:backgroundTint="@color/light_pink"
+                android:contentDescription="@string/search"
+                android:text="@string/search"
+                android:textColor="@color/pink"
+                app:layout_constraintEnd_toStartOf="@id/category_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/category_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_marginHorizontal="10dp"
+                android:backgroundTint="@color/light_pink"
+                android:contentDescription="@string/categories"
+                android:text="@string/categories"
+                android:textColor="@color/pink"
+                app:layout_constraintBottom_toBottomOf="@id/search_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/search_button"
+                app:layout_constraintTop_toTopOf="@id/search_button" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/products_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toTopOf="@id/more_button"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/search_button" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/more_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:backgroundTint="@color/light_pink"
                 android:contentDescription="@string/load_more"
                 android:text="@string/load_more"
+                android:textColor="@color/pink"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -37,7 +69,7 @@
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@color/white">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -45,16 +77,30 @@
             android:layout_gravity="center_horizontal|center_vertical" />
     </FrameLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_pink"
         android:text="@string/retry"
+        android:textColor="@color/pink"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/network_error"
+        android:textSize="20sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/retry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

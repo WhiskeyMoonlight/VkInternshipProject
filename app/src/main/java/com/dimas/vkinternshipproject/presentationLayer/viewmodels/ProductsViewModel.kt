@@ -2,8 +2,9 @@ package com.dimas.vkinternshipproject.presentationLayer.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dimas.vkinternshipproject.ProductsManager
+import com.dimas.vkinternshipproject.businesslayer.ProductsManager
 import com.dimas.vkinternshipproject.model.Product
+import com.dimas.vkinternshipproject.providers.CategoriesProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +16,7 @@ class ProductsViewModel : ViewModel() {
     private val limit = 20
     private var skip = 0
 
-    private val products: MutableList<Product> = emptyList<Product>().toMutableList()
+    private val products: MutableList<Product> = mutableListOf()
 
     fun requireState() = state.asStateFlow()
 
@@ -24,6 +25,8 @@ class ProductsViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
+
+                    CategoriesProvider.getCategories()
                     val res = ProductsManager.getProductsParametrized(skip, limit)
                     products.addAll(res.data)
                     skip += limit

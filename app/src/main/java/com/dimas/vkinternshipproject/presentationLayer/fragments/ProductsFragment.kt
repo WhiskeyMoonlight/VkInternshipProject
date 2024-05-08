@@ -1,5 +1,6 @@
 package com.dimas.vkinternshipproject.presentationLayer.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +12,9 @@ import com.dimas.vkinternshipproject.databinding.FragmentProductsBinding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dimas.vkinternshipproject.ProductsAdapter
+import com.dimas.vkinternshipproject.utilities.ProductsAdapter
+import com.dimas.vkinternshipproject.presentationLayer.activities.CategoriesActivity
+import com.dimas.vkinternshipproject.presentationLayer.activities.SearchActivity
 import com.dimas.vkinternshipproject.presentationLayer.viewmodels.ProductsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -51,21 +54,34 @@ class ProductsFragment : Fragment() {
             is ProductsViewModel.ProductsState.Loading -> {
                 showLoader(true)
                 showRetryButton(false)
-                showMoreButton(false)
+                showButtons(false)
+                showErrorMessage(false)
             }
 
             is ProductsViewModel.ProductsState.Success -> {
                 showLoader(false)
+                showButtons(true)
+                showErrorMessage(false)
+                showRetryButton(false)
                 val adapter = ProductsAdapter(state.result)
                 binding.productsRv.adapter = adapter
                 binding.productsRv.layoutManager = LinearLayoutManager(requireContext())
-                showMoreButton(true)
                 binding.moreButton.setOnClickListener { viewmodel.loadData() }
+                binding.searchButton.setOnClickListener {
+                    val intent = Intent(activity, SearchActivity::class.java)
+                    startActivity(intent)
+                }
+                binding.categoryButton.setOnClickListener {
+                    val intent = Intent(activity, CategoriesActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
             is ProductsViewModel.ProductsState.Error -> {
                 showLoader(false)
+                showButtons(false)
                 showRetryButton(true)
+                showErrorMessage(true)
                 binding.retry.setOnClickListener { viewmodel.loadData() }
                 Toast.makeText(
                     requireContext(),
@@ -84,8 +100,14 @@ class ProductsFragment : Fragment() {
         binding.retry.isVisible = status
     }
 
-    private fun showMoreButton(status: Boolean) {
+    private fun showButtons(status: Boolean) {
+        binding.searchButton.isVisible = status
+        binding.categoryButton.isVisible = status
         binding.moreButton.isVisible = status
+    }
+
+    private fun showErrorMessage(status: Boolean) {
+        binding.errorMessage.isVisible = status
     }
 
     companion object {

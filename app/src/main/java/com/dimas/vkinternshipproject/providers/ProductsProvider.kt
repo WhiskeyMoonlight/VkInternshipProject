@@ -1,19 +1,10 @@
 package com.dimas.vkinternshipproject.providers
 
-import com.dimas.vkinternshipproject.RetrofitAccessor
+import com.dimas.vkinternshipproject.accessors.RetrofitAccessor
 import com.dimas.vkinternshipproject.model.Product
 import com.dimas.vkinternshipproject.model.ProductsResponse
-import retrofit2.Response
-import retrofit2.http.Query
 
 object ProductsProvider {
-    suspend fun getProducts(): ProductsResponse {
-        val response = RetrofitAccessor.apiService.getAllProducts()
-        return when (response.isSuccessful) {
-            true -> response.body()!!
-            else -> throw Throwable(response.raw().message())
-        }
-    }
 
     suspend fun getProductById(id: Int): Product {
         val response = RetrofitAccessor.apiService.findProductById(id)
@@ -41,4 +32,13 @@ object ProductsProvider {
         }
     }
 
+    suspend fun getProductsByCategory(category: String): ProductsResponse {
+        val response = RetrofitAccessor
+            .apiService
+            .getProductsByCategory(category)
+        return when (response.isSuccessful) {
+            true -> response.body()!!
+            else -> throw Throwable(response.raw().message())
+        }
+    }
 }

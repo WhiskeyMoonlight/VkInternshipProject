@@ -39,6 +39,7 @@ class SingleProductActivity : AppCompatActivity() {
 
             is SingleProductViewModel.SingleState.Success -> {
                 showLoader(false)
+                showRetry(false)
                 val item = state.result
                 binding.itemThumbnail.apply {
                     Glide.with(this)
@@ -84,13 +85,12 @@ class SingleProductActivity : AppCompatActivity() {
     }
 
     private fun showRetry(status: Boolean) {
-        binding.errorButtons.isVisible = status
+        binding.errorAction.isVisible = status
+        binding.errorMessage.isVisible = status
     }
-
 
     companion object {
         const val PRODUCT_ID = "id"
     }
-
 
 }

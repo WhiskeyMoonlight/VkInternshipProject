@@ -1,5 +1,6 @@
-package com.dimas.vkinternshipproject
+package com.dimas.vkinternshipproject.accessors
 
+import com.dimas.vkinternshipproject.utilities.IApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

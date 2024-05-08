@@ -1,4 +1,4 @@
-package com.dimas.vkinternshipproject
+package com.dimas.vkinternshipproject.utilities
 
 import com.dimas.vkinternshipproject.model.Product
 import com.dimas.vkinternshipproject.model.ProductsResponse
@@ -8,9 +8,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface IApi {
-    @GET("/products")
-    suspend fun getAllProducts(): Response<ProductsResponse>
-
     @GET("/products/{id}")
     suspend fun findProductById(@Path(value = "id") id: Int): Response<Product>
 
@@ -28,6 +25,10 @@ interface IApi {
         @Query("limit")
         limit: Int
     ): Response<ProductsResponse>
+
+    @GET("/products/category/{category}")
+    suspend fun getProductsByCategory(@Path(value = "category") category: String)
+            : Response<ProductsResponse>
 
     companion object {
         const val BASE_URL = "https://dummyjson.com"

@@ -10,28 +10,28 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SingleProductViewModel : ViewModel() {
-    private val state = MutableStateFlow<SingleState>(SingleState.Idle)
+class CategoriesViewModel : ViewModel() {
+    private val state = MutableStateFlow<CategoryState>(CategoryState.Idle)
     fun requireState() = state.asStateFlow()
 
-    fun loadProduct(id: Int) {
-        state.value = SingleState.Loading
+    fun loadData(category: String) {
+        state.value = CategoryState.Loading
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 try {
-                    val result = ProductsManager.getProductById(id)
-                    state.value = SingleState.Success(result)
+                    val result = ProductsManager.getProductsByCategory(category)
+                    state.value = CategoryState.Success(result.data)
                 } catch (e: Throwable) {
-                    state.value = SingleState.Error(e)
+                    state.value = CategoryState.Error(e)
                 }
             }
         }
     }
 
-    sealed class SingleState {
-        data object Idle : SingleState()
-        data object Loading : SingleState()
-        class Success(val result: Product) : SingleState()
-        class Error(val error: Throwable) : SingleState()
+    sealed class CategoryState {
+        data object Idle : CategoryState()
+        data object Loading : CategoryState()
+        class Success(val result: List<Product>) : CategoryState()
+        class Error(val error: Throwable) : CategoryState()
     }
 }
